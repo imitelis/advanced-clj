@@ -1,10 +1,11 @@
-(ns advanced-clj.thread-macros
+(ns advanced-clj.threadmacros
   (:require [clojure.string :as str]))
 
-(-> x
-    (f1)
-    (f2)
-    (f3))
+; (-> x
+;     (f1)
+;     (f2)
+;     (f3))
+
 
 (-> 5
     (+ 1)       ; Increment: 5 + 1 = 6
@@ -16,8 +17,6 @@
 
 (-> "world"
     (concat-with-prefix "Hello, ")) ; "Hello, world"
-
-(require '[clojure.string :as str])
 
 (->> [1 2 3]
      (str/join ", ")) ; "1, 2, 3"

@@ -1,7 +1,8 @@
-(ns advanced-clj.queues
-  (:require '[clojure.core.async :refer [chan >! <! close!]]))
+(ns advanced-clj.queues 
+  (:require [clojure.core.async :refer [<! >! chan close!]]))
 
-(def my-queue (clojure.lang.PersistentQueue/EMPTY))
+(def my-queue #_{:clj-kondo/ignore [:java-static-field-call]}
+              (clojure.lang.PersistentQueue/EMPTY))
 
 (def my-queue (conj my-queue 1))    ; Adds 1 to the queue
 (def my-queue (conj my-queue 2))    ; Adds 2 to the queue

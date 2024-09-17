@@ -12,7 +12,8 @@
 
 (macroexpand '(unless true (println "This will not print")))
 
-(if (not true) (println "This will not print"))
+(if (not true) (println "This will not print")
+    (println "print"))
 
 (defmacro defmulti-fn [name & clauses]
   `(defn ~name
@@ -21,11 +22,18 @@
        ~@(apply concat (map (fn [[test body]]
                               [test body])
                             (partition 2 clauses))))))
+; Define the multimethod
+(defmulti my-function
+  (fn [arg] arg)) ; Dispatch function returns the argument itself
 
-(defmulti-fn my-function
-  true "Yes"
-  false "No")
+; Define the methods for different dispatch values
+(defmethod my-function true
+  [_] "Yes") ; Method for dispatch value `true`
 
+(defmethod my-function false
+  [_] "No") ; Method for dispatch value `false`
+
+; Use the multimethod
 (my-function true)  ; => "Yes"
 (my-function false) ; => "No"
 

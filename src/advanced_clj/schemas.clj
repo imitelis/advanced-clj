@@ -1,5 +1,5 @@
-(ns advanced-clj.schemas
-  (:require '[schema.core :as s]))
+(ns advanced-clj.schemas 
+  (:require [schema.core :as s]))
 
 (s/defschema Person
   {:name s/Str
