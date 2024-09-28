@@ -1,5 +1,5 @@
 (ns advanced-clj.flows
-  (:require [clojure.core.async :refer [<!] :as async]))
+  (:require [clojure.core.async :refer [<! >! go close! pipeline-async] :as async]))
 
 (def my-channel (async/chan))
 
@@ -41,21 +41,21 @@
 (def input (async/chan))
 (def output (async/chan))
 
-
-(async/pipeline-async
+(pipeline-async
  4 ; Number of parallel processes
  output
  (fn [v]
-   (async/go
+   (go
      (Thread/sleep 500) ; Simulate some processing
-     (async/>! output (str "Processed " v))))) ; Send processed value to output
+     (>! output (str "Processed " v)))) ; Send processed value to output
+ input) ; The input channel
 
-(async/go
+(go
   (dotimes [i 10]
-    (async/>! input i))
-  (async/close! input))
+    (>! input i))
+  (close! input)) ; Close the input channel after sending all items
 
-(async/go
+(go
   (loop []
     (when-let [result (<! output)]
       (println result)
